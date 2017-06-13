@@ -21,7 +21,8 @@
     "orbit-camera-controller": "^4.0.0",
     "pixi.js": "git+https://github.com/pixijs/pixi.js.git#next",
     "stripify": "^6.0.0",
-    "uglifyify": "^3.0.4"
+    "uglifyify": "^3.0.4",
+    "crash": "git+https://github.com/GoodBoyDigital/crash.git"
   },
   "babel": {
     "presets": [

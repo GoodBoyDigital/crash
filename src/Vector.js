@@ -80,7 +80,7 @@ export default class Vector
         return a.x * b.x + a.y * b.y;
     }
 
-    static length(a)
+    static len(a)
     {
         return Math.sqrt(a.x * a.x + a.y * a.y);
     }

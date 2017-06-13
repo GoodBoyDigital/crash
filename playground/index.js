@@ -1,14 +1,16 @@
 'use strict';
 
 import * as PIXI from 'pixi.js'
-import Crash from '../lib/index'
+import crash from 'crash'
 
 let logo;
 const loader = new PIXI.loaders.Loader();
 loader.add(['./assets/pixi_v5.png']);
 loader.load(()=>{
 
-	const crash = new Crash.World();
+	console.log(crash);
+
+	//const crash = new Crash.World();
 
 	logo = new PIXI.Sprite.from('./assets/pixi_v5.png');
 	logo.anchor.set(1);
@@ -18,7 +20,7 @@ loader.load(()=>{
 	app.ticker.add(()=>{
 
 		// add some code here!
-		crash.update();
+		//crash.update();
 	});
 
 	resize(window.innerWidth, window.innerHeight);

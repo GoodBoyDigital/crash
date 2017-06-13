@@ -1,8 +1,8 @@
 {
-  "name": "pixi-experiment",
+  "name": "crash",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "start": "babel src --out-dir lib -s -w",
     "build": "browserify index.js -t babelify -t browserify-shader -g stripify  -o ./dist/bundle.js",
@@ -25,7 +25,7 @@
   },
   "babel": {
     "presets": [
-      "es2015"
+      "es2015-loose"
     ],
     "plugins": [
       "transform-es2015-modules-commonjs"
