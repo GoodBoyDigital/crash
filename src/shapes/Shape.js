@@ -2,6 +2,8 @@
 import Vector from '../Vector';
 import AABB from '../AABB';
 
+let UID = 0;
+
 export default class Shape
 {
 
@@ -14,9 +16,11 @@ export default class Shape
         this.sensor = false;
 
         this.boundingBox = new AABB();
+
+        this.id = UID++;
     }
 }
 
-Shape.RECTANGLE = 0;
-Shape.CIRCLE = 1;
-Shape.LINE = 2;
+Shape.RECTANGLE = 1;
+Shape.CIRCLE = 2;
+Shape.LINE = 4;

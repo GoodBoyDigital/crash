@@ -11,6 +11,8 @@ describe('Crash.Rectangle: ', function ()
     {
         var rect = new Crash.Rectangle(100, 200);
 
+        chai.expect(rect.type).to.equal(Crash.Shape.RECTANGLE);
+
         chai.expect(rect.width).to.equal(100);
         chai.expect(rect.height).to.equal(200);
         chai.expect(rect.boundingBox.lower).to.deep.equal({x:-50, y:-100});

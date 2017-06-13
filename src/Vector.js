@@ -43,6 +43,14 @@ export default class Vector
         return o;
     }
 
+    static copy(o, a)
+    {
+        o.x = a.x;
+        o.y = a.y;
+
+        return o;
+    }
+
     static sub(o, a, b)
     {
         o.x = a.x - b.x;

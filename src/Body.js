@@ -1,6 +1,8 @@
 import Vector from './Vector';
 import AABB from './AABB';
 
+let UID = 0;
+
 export default class Body
 {
 
@@ -31,6 +33,11 @@ export default class Body
         this.boundingBox = new AABB();
         this.boundsDirty = true;
 
+        this.id = UID++;
+
+        this.collisionMask = 0;
+
+        this.canCollide = true;
     }
 
     addShape(shape)
@@ -41,6 +48,20 @@ export default class Body
         }
 
         this.boundsDirty = true;
+    }
+
+    globalBounds(out)
+    {
+        const boundingBox = this.boundingBox;
+        const position = this.position;
+
+        out.lower.x = boundingBox.lower.x + position.x;
+        out.lower.y = boundingBox.lower.y + position.y;
+
+        out.upper.x = boundingBox.upper.x + position.x;
+        out.upper.y = boundingBox.upper.y + position.y;
+
+        return out;
     }
 
     updateBounds()

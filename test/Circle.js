@@ -11,6 +11,7 @@ describe('Crash.Circle: ', function ()
     {
         var circle = new Crash.Circle(100);
 
+        chai.expect(circle.type).to.equal(Crash.Shape.CIRCLE);
         chai.expect(circle.radius).to.equal(100);
         chai.expect(circle.boundingBox.lower).to.deep.equal({x:-100, y:-100});
         chai.expect(circle.boundingBox.upper).to.deep.equal({x:100, y:100});

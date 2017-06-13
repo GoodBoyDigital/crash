@@ -11,6 +11,8 @@ describe('Crash.Line: ', function ()
     {
         var line = new Crash.Line(100, Vector.create(), 0);
 
+        chai.expect(line.type).to.equal(Crash.Shape.LINE);
+
         chai.expect(line.start).to.deep.equal({x:-50, y:0});
         chai.expect(line.end).to.deep.equal({x:50, y:0});
 
