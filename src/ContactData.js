@@ -3,8 +3,10 @@ export default class ContactData
 
     constructor(body1, shape1, body2, shape2, penetration, projection, ignore)
     {
-        this.object1 = object1;
-        this.object2 = object2;
+        this.body1 = body1;
+        this.shape1 = shape1;
+        this.body2 = body2;
+        this.shape2 = shape2;
         this.penetration = penetration;
         this.projection = projection;
         this.ignore = ignore || false;
@@ -13,9 +15,9 @@ export default class ContactData
         this._tickId = null;
     }
 
-    getOtherObject(object)
+    getOtherObject(body)
     {
-        return object === this.object1 ? this.object2 : this.object1
+        return body === this.body1 ? this.body2 : this.body1
     }
 }
 

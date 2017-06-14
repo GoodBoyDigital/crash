@@ -26,6 +26,8 @@ export default class World
 
         this.DEBUG = false;
 
+        this.registerCollison(0,0);
+
     }
 
     add(body)
@@ -46,15 +48,14 @@ export default class World
         //TODO broadphase
 
         var collisions = this.getCollisions();
+        //console.log(collisions);
 
-        console.log(collisions);
-
-        for (var i = 0; i < this.dynamicItems.children.length; i++)
+        for (var i = 0; i < this.dynamicBodies.children.length; i++)
         {
-            this.dynamicItems.children[i].body.update(this.dt);
+            this.dynamicBodies.children[i].update(this.dt);
         };
 
-        //this.narrowPhase.hitTest(collisions);
+        this.narrowPhase.collide(collisions);
        // };
 
 
@@ -83,26 +84,39 @@ export default class World
         this.collisionKeys[this.getKey(type2, type1)] = true;
     }
 
+    updateBounds()
+    {
+        // TODO no need to update static!
+        var list = this.bodies.children;
+
+        for (var i = 0; i < list.length; i++)
+        {
+            list[i].updateBounds();
+        }
+    }
+
     getCollisions()
     {
         this.collisions.length = 0;
 
         var size = 0;
 
+        this.updateBounds();
+
         //SAP!
         var list =  this.bodies.children;
+
         this.sortAxisList( list );
 
         for (var i = 0; i < list.length; i++)
         {
             var body1 = list[i];
             var newItemLeft = body1.position.x + body1.boundingBox.upper.x;
-
             for (var j = i+1; j < list.length; j++)
             {
                 var body2 = list[j];
 
-                var currentItemRight = body2.body.position.x + body2.boundingBox.lower.x;// - 5;
+                var currentItemRight = body2.position.x + body2.boundingBox.lower.x;// - 5;
 
                 if(newItemLeft <= currentItemRight)
                 {
@@ -110,37 +124,40 @@ export default class World
                 }
                 else
                 {
-                    var canCollide = true;
-                    var key = this.getKey(item2.type, item1.type)
-                    //TODO items that are the same cannot collide..
 
-                    if(!this.collisionKeys[key])//platform.type === item.type && !item.collideWithSelf)
-                    {
-                        canCollide = false;
-                    }
-                    else
-                    {
-                        if(!body2.canCollide || !body1.canCollide)
-                        {
-                            canCollide = false;
-                        }
-                    }
-
-                    if(canCollide)
+                    if(this.canCollide(body1, body2))
                     {
                        this.collisions.push(body1,
                                             body2);
                     }
+
                 }
             }
         };
 
         // finallly hit tes the bounds..
 
-
         return this.collisions;
     }
 
+    canCollide(body1, body2)
+    {
+        if((body1.type | body2.type) !== (Body.STATIC | Body.STATIC))
+        {
+            if(body2.canCollide && body1.canCollide)
+            {
+                var key = this.getKey(body2.collisionMask, body1.collisionMask)
+
+                if(this.collisionKeys[key])
+                {
+                    return true;
+                }
+            }
+        }
+
+
+        return false;
+    }
 
     sortAxisList(a)
     {

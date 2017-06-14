@@ -67,7 +67,7 @@ export default class Vector
         return o;
     }
 
-    static mul(o, a, s)
+    static mul(o, v, s)
     {
         o.x = v.x * s;
         o.y = v.y * s;
@@ -90,9 +90,11 @@ export default class Vector
         return a.x * a.x + a.y * a.y;
     }
 
-    static normalise(o, a)
+    static normalize(o, a)
     {
         const scale = Math.sqrt(a.x * a.x + a.y * a.y);
+
+        if(scale === 0)return 0;
 
         o.x = a.x / scale;
         o.y = a.y / scale;

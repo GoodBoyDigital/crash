@@ -1,5 +1,7 @@
 import Vector from './Vector';
 import AABB from './AABB';
+import Circle from './shapes/Circle';
+import Rectangle from './shapes/Rectangle';
 
 let UID = 0;
 
@@ -8,7 +10,9 @@ export default class Body
 
     constructor(data = {})
     {
-        this.type = Body.DYNAMIC;
+        this.type = data.type || Body.DYNAMIC;
+
+        this.mass = 0;
 
         this.shapes = data.shapes || [];
 
@@ -20,11 +24,11 @@ export default class Body
         this.acceleration = Vector.create();
         this.bounce = 0;
 
-        this.maxSpeed = data.maxSpeed || 5;
+        this.maxSpeed = data.maxSpeed || 10000;
 
         this.gravity = data.gravity || 0;//0.1;
 
-        this.friction = data.friction || 0.9;
+        this.friction = data.friction || 0.99;
 
         this.active = true;
 
@@ -32,6 +36,9 @@ export default class Body
 
         this.boundingBox = new AABB();
         this.boundsDirty = true;
+
+        this.bounce = 0.1;
+        this.friction = 1;
 
         this.id = UID++;
 
@@ -66,6 +73,7 @@ export default class Body
 
     updateBounds()
     {
+
         this.boundsDirty = false;
 
         let minX = Infinity;
@@ -102,7 +110,7 @@ export default class Body
 
         velocity.y += this.gravity * this.timeScale;
 
-        var speed = velocity.length();
+        var speed = Vector.len(velocity);
 
         if(speed > 0)
         {
@@ -127,12 +135,27 @@ export default class Body
 
         this.active = true;
     }
+
+    static createCircle(radius, x, y)
+    {
+        var body = new Body();
+        body.addShape(new Circle(radius, Vector.create(x, y)));
+
+        return body;
+    }
+
+    static createRectangle(width, height, x, y, r)
+    {
+        var body = new Body();
+        body.addShape(new Rectangle(width, height, Vector.create(x, y), r));
+
+        return body;
+    }
 }
 
-Body.STATIC = 0;
-Body.KINIMATIC = 1;
-Body.DYNAMIC = 2;
-Body.NONE = 3;
+Body.DYNAMIC = 1;
+Body.STATIC = 2;
+Body.KINIMATIC = 4;
 
 /*
     getDebugView(color)

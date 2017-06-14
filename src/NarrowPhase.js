@@ -2,10 +2,12 @@
 import Vector from './Vector';
 import AABB from './AABB';
 import ContactData from './ContactData';
+import Solver from './Solver';
 
 import Shape from './shapes/Shape';
 import circleVcircle from './collision/circleVcircle';
 import rectangleVcircle from './collision/rectangleVcircle';
+import rectangleVrectangle from './collision/rectangleVrectangle';
 
 
 const tempAABB = new AABB();
@@ -27,11 +29,16 @@ export default class NarrowPhase
         this.collisionDatas = [];
 
         this[Shape.CIRCLE | Shape.CIRCLE] = circleVcircle;
-        this[Shape.RECTANGLE | Shape.RECTANGLE] = this.rectangleVrectangle;
+        this[Shape.RECTANGLE | Shape.RECTANGLE] = rectangleVrectangle;
         this[Shape.LINE | Shape.LINE] = this.lineVline;
         this[Shape.RECTANGLE | Shape.CIRCLE] = rectangleVcircle;
         this[Shape.RECTANGLE | Shape.LINE] = this.rectangleVline;
         this[Shape.CIRCLE | Shape.LINE] = this.circleVline;
+
+        this.collisionSuccess = this.collisionSuccess.bind(this);
+        this.collisionFail = this.collisionFail.bind(this);
+
+        this.solver = new Solver();
     }
 
 
@@ -46,18 +53,21 @@ export default class NarrowPhase
         {
             // first aabb checks..
 
-            const bounds = body1.globalBounds(collisions[i])
-            const bounds2 = body2.globalBounds(collisions[i+1])
+            const body1 = collisions[i];
+            const body2 = collisions[i+1];
+
+            const bounds = body1.globalBounds(tempAABB)
+            const bounds2 = body2.globalBounds(tempAABB2)
 
             if(this.aabbVaabb(bounds, bounds2))
             {
-                for (var i = 0; i < body1.shapes.length; i++)
+                for (var j = 0; j < body1.shapes.length; j++)
                 {
-                    const shape1 = body1.shapes[i];
+                    const shape1 = body1.shapes[j];
 
-                    for (var j = 0; j < body2.shapes.length; j++)
+                    for (var k = 0; k < body2.shapes.length; k++)
                     {
-                        const shape2 = body2.shapes[j];
+                        const shape2 = body2.shapes[k];
 
                         if(shape1.type < shape2.type)
                         {
@@ -67,7 +77,7 @@ export default class NarrowPhase
                                 body2,
                                 shape2,
                                 this.collisionSuccess,
-                                this.collisionsFail
+                                this.collisionFail
                             );
                         }
                         else
@@ -78,7 +88,7 @@ export default class NarrowPhase
                                 body1,
                                 shape1,
                                 this.collisionSuccess,
-                                this.collisionsFail
+                                this.collisionFail
                             );
                         }
                     }
@@ -87,7 +97,8 @@ export default class NarrowPhase
         }
 
         // check for dead collisons..
-        for (var i = 0; i < this.currentCollisions.length; i++) {
+        for (var i = 0; i < this.currentCollisions.length; i++)
+        {
 
             var collisonData = this.currentCollisions[i];
 
@@ -100,19 +111,22 @@ export default class NarrowPhase
             }
 
         };
+
+        // solve current collisions..
+        this.solver.solve(this.currentCollisions);
     }
 
     collisionSuccess(body1, shape1, body2, shape2, penetration, projection)
     {
         var key;
 
-        if(shape1.UID > shape2.UID)
+        if(shape1.id > shape2.id)
         {
-            key = (shape2.UID << 12) + shape1.UID;//shape1.UID + ":"+ shape2.UID;
+            key = (shape2.id << 12) + shape1.id;//shape1.id + ":"+ shape2.id;
         }
         else
         {
-            key = (shape1.UID << 12) + shape2.UID;//shape1.UID + ":"+ object2.UID;
+            key = (shape1.id << 12) + shape2.id;//shape1.UID + ":"+ object2.UID;
 
         }
 
@@ -126,20 +140,26 @@ export default class NarrowPhase
         }
         else
         {
+            console.log("collision begin")
             contactData = this.pool.pop();
 
             if(!contactData)
             {
-                contactData = new CrashData(object1,
-                                            object2,
-                                            penetration,
-                                            projection,
-                                            false);
+                contactData = new ContactData(body1,
+                                              shape1,
+                                              body2,
+                                              shape2,
+                                              penetration,
+                                              projection,
+                                              false);
             }
             else
             {
-                contactData.object1 = object1;
-                contactData.object2 = object2;
+                contactData.body1 = body1;
+                contactData.shape1 = shape1;
+                contactData.body2 = body2;
+                contactData.shape2 = shape2;
+
                 contactData.penetration = penetration;
                 contactData.projection = projection;
                 contactData.ignore = false;
@@ -155,7 +175,7 @@ export default class NarrowPhase
         }
     }
 
-    collisionsFail(body1, circle1, body2, circle2)
+    collisionFail(body1, circle1, body2, circle2)
     {
         // no more collision!
     }
@@ -176,30 +196,19 @@ export default class NarrowPhase
 
         var key = collisionData._key
 
-        var collisonData = this.collisions[key];
+        var contactData = this.collisionMap[key];
 
-        if( collisonData )
+        if( contactData )
         {
-            // end collision..
-/*
-            if(collisionData.object2 === collisionData.object1.body.currentSurface)
-            {
-                collisionData.object1.onGround = false;
-                collisionData.object1.body.currentSurface = null;
-            }
-            else if(collisionData.object1 === collisionData.object2.body.currentSurface)
-            {
-                collisionData.object2.onGround = false;
-                collisionData.object2.body.currentSurface = null;
-            }
-*/
-            this.pool.push( collisonData );
-            this.collisions[key] = null;
+            console.log("collision end")
+
+            this.contactPool.push( contactData );
+            this.collisionMap[key] = null;
 
         }
 
         //TODO think about this!
-        if(collisionData.object1.world)
+       // if(collisionData.object1.world)
         {
 
            // if(collisionData.object1.onCollideEnd)collisionData.object1.onCollideEnd(collisonData);
@@ -207,12 +216,12 @@ export default class NarrowPhase
         }
 
 
-       return collisonData;
+       return collisionData;
     }
 
     reset()
     {
-        this.collisions ={};
+        this.collisionMap ={};
         this.tickId = 0;
 
         this.currentCollisions = [];
