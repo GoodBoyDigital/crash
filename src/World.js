@@ -4,6 +4,7 @@ import Group from './utils/Group';
 import Body from './Body';
 
 import NarrowPhase from './NarrowPhase';
+import Signal from 'mini-signals';
 
 export default class World
 {
@@ -12,13 +13,15 @@ export default class World
     constructor()
     {
         // on hit test against.. platforms
+        this.onCollideBegin = new Signal();
+        this.onCollideEnd = new Signal();
 
         this.staticBodies = this[Body.STATIC] = new Group();
         this.dynamicBodies = this[Body.DYNAMIC] = new Group();
         this.bodies = new Group();
 
         this.collisions = [];
-        this.narrowPhase = new NarrowPhase();
+        this.narrowPhase = new NarrowPhase(this);
 
         this.dt = 1;
 
@@ -27,6 +30,9 @@ export default class World
         this.DEBUG = false;
 
         this.registerCollison(0,0);
+
+
+
 
     }
 

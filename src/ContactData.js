@@ -1,3 +1,5 @@
+import Vector from './Vector';
+
 export default class ContactData
 {
 
@@ -13,11 +15,18 @@ export default class ContactData
 
         this._key = null;
         this._tickId = null;
+
+       // this._temp = Vector.create();
     }
 
     getOtherObject(body)
     {
-        return body === this.body1 ? this.body2 : this.body1
+        return body === this.body1 ? this.body2 : this.body1;
+    }
+
+    getPenetration(body)
+    {
+        return body === this.body1 ? this.projection : Vector.create(this.penetration.x * -1, this.penetration.y * -1);
     }
 }
 

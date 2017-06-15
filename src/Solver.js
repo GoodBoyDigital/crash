@@ -14,6 +14,7 @@ export default class Solver
         for (var i = collsions.length - 1; i >= 0; i--)
         {
             const collision = collsions[i];
+
             const projection = collision.projection;
             const penetration = collision.penetration;
             const body1 = collision.body1;
@@ -36,7 +37,7 @@ export default class Solver
                 amount = 0;
                 amount2 = 1;
 
-                this.bounce(body2, body1, projection)
+                this.bounce(body2, body1, Vector.create(-projection.x, -projection.y))
             }
 
             var dx = projection.x * penetration;

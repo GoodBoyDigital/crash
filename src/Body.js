@@ -3,6 +3,7 @@ import AABB from './AABB';
 import Circle from './shapes/Circle';
 import Rectangle from './shapes/Rectangle';
 
+
 let UID = 0;
 
 export default class Body
@@ -45,6 +46,8 @@ export default class Body
         this.collisionMask = 0;
 
         this.canCollide = true;
+
+
     }
 
     addShape(shape)
@@ -69,6 +72,11 @@ export default class Body
         out.upper.y = boundingBox.upper.y + position.y;
 
         return out;
+    }
+
+    invalidateBounds()
+    {
+         this.boundsDirty = true;
     }
 
     updateBounds()
@@ -136,17 +144,17 @@ export default class Body
         this.active = true;
     }
 
-    static createCircle(radius, x, y)
+    static createCircle(data, radius, x, y)
     {
-        var body = new Body();
+        var body = new Body(data);
         body.addShape(new Circle(radius, Vector.create(x, y)));
 
         return body;
     }
 
-    static createRectangle(width, height, x, y, r)
+    static createRectangle(data, width, height, x, y, r)
     {
-        var body = new Body();
+        var body = new Body(data);
         body.addShape(new Rectangle(width, height, Vector.create(x, y), r));
 
         return body;

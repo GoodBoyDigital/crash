@@ -15,8 +15,10 @@ const tempAABB2 = new AABB();
 
 export default class NarrowPhase
 {
-    constructor()
+    constructor(world)
     {
+        this.world = world;
+
         this.collisionMap = {};
 
         this.pool = [];
@@ -168,9 +170,15 @@ export default class NarrowPhase
             contactData._key = key;
             contactData._tickId = this.tickId;
 
+            this.world.onCollideBegin.dispatch(contactData);
+
             this.collisionMap[key] = contactData;
 
-            this.currentCollisions.push(contactData);
+            if(!contactData.ignore && !shape1.sensor  &&  !shape2.sensor )
+            {
+                this.currentCollisions.push(contactData);
+            }
+
 
         }
     }
@@ -201,6 +209,11 @@ export default class NarrowPhase
         if( contactData )
         {
             console.log("collision end")
+
+            if(!contactData.ignore)
+            {
+                this.world.onCollideEnd.dispatch(contactData);
+            }
 
             this.contactPool.push( contactData );
             this.collisionMap[key] = null;
