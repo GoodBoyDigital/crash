@@ -39,6 +39,7 @@ export default class Body
         this.boundsDirty = true;
 
         this.bounce = 0.1;
+        this.contactFriction = 1;
         this.friction = 1;
 
         this.id = UID++;

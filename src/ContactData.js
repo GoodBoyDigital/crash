@@ -24,6 +24,11 @@ export default class ContactData
         return body === this.body1 ? this.body2 : this.body1;
     }
 
+    getOtherShape(body)
+    {
+        return body === this.body1 ? this.shape2 : this.shape1;
+    }
+
     getPenetration(body)
     {
         return body === this.body1 ? this.projection : Vector.create(this.penetration.x * -1, this.penetration.y * -1);

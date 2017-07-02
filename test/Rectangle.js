@@ -74,7 +74,7 @@ describe('Crash.Rectangle: ', function ()
     {
         var rectangle = new Crash.Rectangle(100, 100, Vector.create(), 45 * (Math.PI / 180) );
 
-        var maxlen = Vector.length(Vector.create(100, 100));
+        var maxlen = Vector.len(Vector.create(100, 100));
 
         chai.expect(rectangle.boundingBox.width).to.closeTo(maxlen, 1);
         chai.expect(rectangle.boundingBox.height).to.closeTo(maxlen, 1);
@@ -87,7 +87,7 @@ describe('Crash.Rectangle: ', function ()
     {
         var rectangle = new Crash.Rectangle(100, 100, Vector.create(20, 10), 45 * (Math.PI / 180) );
 
-        var maxlen = Vector.length(Vector.create(100, 100));
+        var maxlen = Vector.len(Vector.create(100, 100));
 
         chai.expect(rectangle.boundingBox.width).to.closeTo(maxlen, 1);
         chai.expect(rectangle.boundingBox.height).to.closeTo(maxlen, 1);

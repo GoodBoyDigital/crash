@@ -50,21 +50,15 @@ export default class World
 
     update()
     {
-
-        //TODO broadphase
-
-        var collisions = this.getCollisions();
-        //console.log(collisions);
+        //TODO seperate to a broadphase
 
         for (var i = 0; i < this.dynamicBodies.children.length; i++)
         {
             this.dynamicBodies.children[i].update(this.dt);
         };
 
+        var collisions = this.getCollisions();
         this.narrowPhase.collide(collisions);
-       // };
-
-
     }
 
     reset()

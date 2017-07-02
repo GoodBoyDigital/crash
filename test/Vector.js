@@ -41,13 +41,13 @@ describe('Crash.Vector', function ()
         chai.expect(out.y).to.equal(0);
     });
 
-    it('should normalise correctly', function ()
+    it('should normalize correctly', function ()
     {
         var v1 = new Vector(0, 100);
 
         var out = new Vector();
 
-        Vector.normalise(out, v1);
+        Vector.normalize(out, v1);
 
         chai.expect(out.x).to.equal(0);
         chai.expect(out.y).to.equal(1);

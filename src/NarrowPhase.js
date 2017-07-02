@@ -172,11 +172,12 @@ export default class NarrowPhase
 
             this.world.onCollideBegin.dispatch(contactData);
 
-            this.collisionMap[key] = contactData;
 
-            if(!contactData.ignore && !shape1.sensor  &&  !shape2.sensor )
+
+            if(!contactData.ignore)
             {
                 this.currentCollisions.push(contactData);
+                this.collisionMap[key] = contactData;
             }
 
 
