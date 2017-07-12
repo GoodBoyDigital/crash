@@ -1,6 +1,11 @@
 
 import Vector from '../Vector';
 
+var temp = Vector.create();
+var temp2 = Vector.create();
+var temp3 = Vector.create();
+var temp4 = Vector.create();
+
 export default function rectangleVcircle(bodyRect, rectangle, bodyCirc, circle, success, fail)
 {
 
@@ -13,7 +18,7 @@ export default function rectangleVcircle(bodyRect, rectangle, bodyCirc, circle, 
     var cx = bodyCirc.position.x + circle.position.x;
     var cy = bodyCirc.position.y + circle.position.y;
 
-    var localCirclePositionRot = new Vector();
+    var localCirclePositionRot = temp;
     localCirclePositionRot.x = c * (cx - ox) - s * (cy - oy) + ox;
     localCirclePositionRot.y = s * (cx - ox) + c * (cy - oy) + oy;
 
@@ -25,7 +30,7 @@ export default function rectangleVcircle(bodyRect, rectangle, bodyCirc, circle, 
     var halfWidth = rect.width/2;
     var halfHeight = rect.height/2;
 
-    var closestPoint = Vector.clone(localCirclePosition);
+    var closestPoint = Vector.copy(temp2, localCirclePosition);
 
     if(localCirclePosition.x < -halfWidth)
     {
@@ -67,7 +72,7 @@ export default function rectangleVcircle(bodyRect, rectangle, bodyCirc, circle, 
         if(topDist < dist)dist = topDist;
         if(bottomDist < dist)dist = bottomDist;
 
-        penetrationLine = new Vector();//this.temp4;
+        penetrationLine = temp3;//this.temp4;
         if(dist == leftDist)
         {
             penetrationLine.x =-1
@@ -91,7 +96,7 @@ export default function rectangleVcircle(bodyRect, rectangle, bodyCirc, circle, 
 
         var penetration = -dist-radius;
 
-        const penetrationLine2 =  new Vector()//new Vector();
+        const penetrationLine2 = new Vector();
         penetrationLine2.x = (penetrationLine.x * c) + (penetrationLine.y * s)
         penetrationLine2.y = (penetrationLine.y * c) - (penetrationLine.x * s)
 

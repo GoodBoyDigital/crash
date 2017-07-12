@@ -142,7 +142,7 @@ export default class NarrowPhase
         }
         else
         {
-            console.log("collision begin")
+         //   console.log("collision begin")
             contactData = this.pool.pop();
 
             if(!contactData)
@@ -209,7 +209,7 @@ export default class NarrowPhase
 
         if( contactData )
         {
-            console.log("collision end")
+          //  console.log("collision end")
 
             if(!contactData.ignore)
             {
