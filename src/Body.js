@@ -1,6 +1,7 @@
 import Vector from './Vector';
 import AABB from './AABB';
 import Circle from './shapes/Circle';
+import Line from './shapes/Line';
 import Rectangle from './shapes/Rectangle';
 
 
@@ -157,6 +158,14 @@ export default class Body
     {
         var body = new Body(data);
         body.addShape(new Rectangle(width, height, Vector.create(x, y), r));
+
+        return body;
+    }
+
+    static createLine(data, length, x,y, rotation)
+    {
+        var body = new Body(data);
+        body.addShape(new Line(length, Vector.create(x, y), rotation));
 
         return body;
     }

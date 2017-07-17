@@ -25,6 +25,8 @@ export default class Line extends Shape
                              this.position.y + minY,
                              this.position.x + maxX,
                              this.position.y + maxY);
+
+
     }
 }
 /*

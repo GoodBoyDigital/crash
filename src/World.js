@@ -124,7 +124,6 @@ export default class World
                 }
                 else
                 {
-
                     if(this.canCollide(body1, body2))
                     {
                        this.collisions.push(body1,

@@ -33,7 +33,6 @@ export default class Solver
                 {
                     amount = 1;
                     amount2 = 0;
-
                     this.bounce(body1, body2, projection)
 
 

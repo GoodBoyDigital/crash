@@ -8,6 +8,7 @@ import Shape from './shapes/Shape';
 import circleVcircle from './collision/circleVcircle';
 import rectangleVcircle from './collision/rectangleVcircle';
 import rectangleVrectangle from './collision/rectangleVrectangle';
+import circleVLine from './collision/circleVLine';
 
 
 const tempAABB = new AABB();
@@ -35,7 +36,7 @@ export default class NarrowPhase
         this[Shape.LINE | Shape.LINE] = this.lineVline;
         this[Shape.RECTANGLE | Shape.CIRCLE] = rectangleVcircle;
         this[Shape.RECTANGLE | Shape.LINE] = this.rectangleVline;
-        this[Shape.CIRCLE | Shape.LINE] = this.circleVline;
+        this[Shape.CIRCLE | Shape.LINE] = circleVLine;
 
         this.collisionSuccess = this.collisionSuccess.bind(this);
         this.collisionFail = this.collisionFail.bind(this);
@@ -47,6 +48,7 @@ export default class NarrowPhase
     collide(collisions)
     {
         this.tickId ++;
+      //  console.log(collisions);
 
         //TODO OPTIMISE THIS SHIZ
         //for(var j = 0; j < 1; j++)
