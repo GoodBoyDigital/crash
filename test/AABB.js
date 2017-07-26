@@ -38,7 +38,7 @@ describe('Crash.AABB', function ()
 
     });
 
-    it('should update from rectangle correctly', function ()
+    it('should update from rectangle correctly', function (done)
     {
         var aabb = new AABB(-10, -10, 10, 10);
 

@@ -49,7 +49,17 @@ export default class Body
 
         this.canCollide = true;
 
+//        velX = x - lastX
+//velY = y - lastY
 
+//nextX = x + velX + accX * timestepSq
+//nextY = y + velY + accY * timestepSq
+
+//lastX = x
+//lastY = y
+
+//x = nextX
+//y = nextY
     }
 
     addShape(shape)
@@ -133,9 +143,13 @@ export default class Body
             velocity.y *= speed;
         }
 
-
         this.position.x += velocity.x * this.timeScale * deltaTime;
         this.position.y += velocity.y * this.timeScale * deltaTime;
+
+        this.lastPosition.x = this.position.x;
+        this.lastPosition.y = this.position.y;
+
+
     }
 
     reset()
