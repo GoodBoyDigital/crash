@@ -174,14 +174,8 @@ export default class NarrowPhase
 
             this.world.onCollideBegin.dispatch(contactData);
 
-
-
-            if(!contactData.ignore)
-            {
-                this.currentCollisions.push(contactData);
-                this.collisionMap[key] = contactData;
-            }
-
+            this.currentCollisions.push(contactData);
+            this.collisionMap[key] = contactData;
 
         }
     }

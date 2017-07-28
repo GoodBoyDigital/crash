@@ -19,7 +19,7 @@ export default class Solver
         {
             const collision = collsions[i];
 
-            if(!collision.shape1.sensor && !collision.shape2.sensor)
+            if(!collision.ignore && !collision.shape1.sensor && !collision.shape2.sensor)
             {
                 const projection = collision.projection;
                 const penetration = collision.penetration;
