@@ -8,7 +8,7 @@ import Shape from './shapes/Shape';
 import circleVcircle from './collision/circleVcircle';
 import rectangleVcircle from './collision/rectangleVcircle';
 import rectangleVrectangle from './collision/rectangleVrectangle';
-import circleVLine from './collision/circleVLine';
+import circleVLine from './collision/circleVline';
 
 
 const tempAABB = new AABB();
