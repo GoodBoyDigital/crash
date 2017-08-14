@@ -68,7 +68,7 @@ export default class Body
         {
             this.shapes.push(shape);
         }
-
+        console.log("<>>add shape <>")
         this.boundsDirty = true;
     }
 
@@ -88,13 +88,16 @@ export default class Body
 
     invalidateBounds()
     {
+        console.log("<>> in validate <>")
          this.boundsDirty = true;
     }
 
     updateBounds()
     {
-
+        if(!this.boundsDirty)return;
         this.boundsDirty = false;
+
+  //      console.log("-- updating bounds --")
 
         let minX = Infinity;
         let minY = Infinity;

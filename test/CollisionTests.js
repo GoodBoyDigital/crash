@@ -1,6 +1,7 @@
 'use strict';
 var crash = require('../lib');
 var circleVline = require('../lib/collision/circleVLine').default;
+var rectangleVrectangle = require('../lib/collision/rectangleVrectangle').default;
 var Vector = crash.Vector;
 var Body = crash.Body;
 
@@ -9,6 +10,32 @@ var chai = require('chai');
 
 describe('Crash.hitTests', function ()
 {
+    it('hit test a non rotated rect vs a non rotated rect', function ()
+    {
+        var rect1 = Body.createRectangle({}, 100, 100, 0, 202);
+        var rect2 = Body.createRectangle({}, 100, 100, 0, 0);
+
+        rect1.updateBounds();
+        rect2.updateBounds();
+
+        rectangleVrectangle(rect2,
+                        rect2.shapes[0],
+                        rect2,
+                        rect2.shapes[0],
+                        (body1, rectangle1, body2, rectangle2, penetration, positionToProject)=>{
+
+                console.log(penetration, positionToProject);
+                chai.expect(penetration).to.equal(1);
+               // chai.expect(positionToProject).to.deep.equal(positionsToProject[i]);
+
+                count++
+
+        }, ()=>{})
+
+        chai.expect(count).to.equal(1);
+
+    });
+
     it('hit test a circle vs a line', function ()
     {
 

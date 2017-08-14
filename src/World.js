@@ -51,7 +51,7 @@ export default class World
     update()
     {
         //TODO seperate to a broadphase
-
+       // console.log(this.bodies.children.length)
         for (var i = 0; i < this.dynamicBodies.children.length; i++)
         {
             this.dynamicBodies.children[i].update(this.dt);
@@ -126,8 +126,18 @@ export default class World
                 {
                     if(this.canCollide(body1, body2))
                     {
-                       this.collisions.push(body1,
-                                            body2);
+                        // this is important to add as it makes sure bodies are hit test in the correct order
+                        // every frame whilst a collision endures
+                        if(body1.id > body2.id)
+                        {
+                           this.collisions.push(body1,
+                                                body2);
+                        }
+                        else
+                        {
+                            this.collisions.push(body2,
+                                                 body1);
+                        }
                     }
 
                 }
