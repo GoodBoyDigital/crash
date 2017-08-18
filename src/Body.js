@@ -68,7 +68,7 @@ export default class Body
         {
             this.shapes.push(shape);
         }
-        console.log("<>>add shape <>")
+        //console.log("<>>add shape <>")
         this.boundsDirty = true;
     }
 
@@ -88,8 +88,7 @@ export default class Body
 
     invalidateBounds()
     {
-        console.log("<>> in validate <>")
-         this.boundsDirty = true;
+        this.boundsDirty = true;
     }
 
     updateBounds()

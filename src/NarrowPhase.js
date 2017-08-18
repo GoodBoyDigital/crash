@@ -48,7 +48,6 @@ export default class NarrowPhase
     collide(collisions)
     {
         this.tickId ++;
-      //  console.log(collisions);
 
         //TODO OPTIMISE THIS SHIZ
         //for(var j = 0; j < 1; j++)
