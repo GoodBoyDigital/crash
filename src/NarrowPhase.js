@@ -22,8 +22,6 @@ export default class NarrowPhase
 
         this.collisionMap = {};
 
-        this.pool = [];
-
         this.tickId = 0;
 
         this.currentCollisions = [];
@@ -144,7 +142,7 @@ export default class NarrowPhase
         else
         {
          //   console.log("collision begin")
-            contactData = this.pool.pop();
+            contactData = this.contactPool.pop();
 
             if(!contactData)
             {

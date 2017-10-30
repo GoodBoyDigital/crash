@@ -16,6 +16,7 @@ export default class ContactData
         this._key = null;
         this._tickId = null;
 
+        this.temp = Vector.create();
        // this._temp = Vector.create();
     }
 
@@ -31,7 +32,7 @@ export default class ContactData
 
     getProjection(body)
     {
-        return body === this.body1 ? this.projection : Vector.create(this.projection.x * -1, this.projection.y * -1);
+        return body === this.body1 ? this.projection : Vector.set(this.temp, this.projection.x * -1, this.projection.y * -1);
     }
 }
 
